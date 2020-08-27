@@ -16,6 +16,7 @@
     <maven.compiler.target>14</maven.compiler.target>
     <jetty.version>9.4.31.v20200723</jetty.version>
     <junit.version>4.11</junit.version>
+    <jersey.version>2.31</jersey.version>
     <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
   </properties>
 
@@ -29,6 +30,22 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-webapp</artifactId>
       <version>${jetty.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>${jersey.version}</version>
     </dependency>
 
     <dependency>
