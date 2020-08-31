@@ -1,0 +1,111 @@
+<todo>
+    <h3>Java Simple To Do</h3>
+
+    <ul>
+        <li each={ item in state.tasks }>
+            <label class={ item.isDone ? 'completed' : null }>
+            <input
+                    type="checkbox"
+                    checked={ item.isDone }
+                    onclick={ ()=> toggle(item) } />
+            { item.title }
+            </label>
+        </li>
+    </ul>
+
+    <form onsubmit={ add }>
+        <input onkeyup={ edit }/>
+        <button disabled={ !state.text }>
+            Add #{ state.tasks.length + 1 }
+        </button>
+    </form>
+
+    <script>
+        export default {
+          onBeforeMount(props, state) {
+            this.state = {
+              tasks: props.tasks,
+              text: ''
+            }
+          },
+          edit(e) {
+            this.update({
+              text: e.target.value
+            })
+          },
+          add(e) {
+            e.preventDefault()
+            if (this.state.text) {
+              this.update({
+                tasks: [
+                  ...this.state.tasks,
+                  // add a new item
+                  {title: this.state.text}
+                ],
+                text: ''
+              })
+            }
+          },
+          toggle(item) {
+            item.isDone = !item.isDone
+            this.update()
+          }
+        }
+    </script>
+
+    <style>
+        todo {
+          font-family: 'myriad pro', sans-serif;
+          font-size: 20px;
+          display: block;
+          max-width: 400px;
+          margin: 5% auto;
+        }
+
+        form input {
+          font-size: 85%;
+          padding: .4em;
+          border: 1px solid #ccc;
+          border-radius: 2px;
+        }
+
+        button {
+          background-color: #1FADC5;
+          border: 1px solid rgba(0,0,0,.2);
+          font-size: 75%;
+          color: #fff;
+          padding: .4em 1.2em;
+          border-radius: 2em;
+          cursor: pointer;
+          margin: 0 .23em;
+          outline: none;
+        }
+
+        button[disabled] {
+          background-color: #ddd;
+          color: #aaa;
+        }
+
+        ul {
+          padding: 0;
+        }
+
+        li {
+          list-style-type: none;
+          padding: .2em 0;
+        }
+
+        .completed {
+          text-decoration: line-through;
+          color: #ccc;
+        }
+
+        label {
+          cursor: pointer;
+        }
+
+        input {
+          margin-right: 10px;
+        }
+    </style>
+</todo>

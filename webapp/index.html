@@ -1,10 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Java Simple To Do</title>
+    <script src="node_modules/riot/riot+compiler.js"></script>
+    <script src="src/todo.riot" type="riot"></script>
 </head>
 <body>
-    <div>test</div>
+    <todo></todo>
+    <script>
+        (async function main() {
+          await riot.compile()
+
+          riot.mount('todo', {
+              tasks: [
+                { title: 'Task 1', isDone: true },
+                { title: 'Task 2' },
+                { title: 'Task 3' },
+                { title: 'Task 4' }
+              ]
+            })
+        }())
+    </script>
 </body>
 </html>
