@@ -13,16 +13,24 @@
     <todo></todo>
     <script>
         (async function main() {
-          await riot.compile()
+            await riot.compile()
 
-          riot.mount('todo', {
-              tasks: [
-                { title: 'Task 1', isDone: true },
-                { title: 'Task 2' },
-                { title: 'Task 3' },
-                { title: 'Task 4' }
-              ]
-            })
+            var xhr = new XMLHttpRequest();
+            var url = "http://localhost:8080/rest/task";
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var tasks = JSON.parse(xhr.response);
+                    loadTasks(tasks);
+                }
+            }
+            xhr.open("GET", url, true);
+            xhr.send();
+
+            function loadTasks(tasks) {
+              console.log(tasks)
+              riot.mount('todo', { tasks: tasks });
+            }
         }())
     </script>
 </body>
