@@ -1,6 +1,7 @@
 package org.example.rest;
 
 import org.example.model.Task;
+import org.example.model.TaskRepository;
 
 import javax.ws.rs.*;
 import java.util.ArrayList;
@@ -12,30 +13,28 @@ import static java.util.Arrays.asList;
 @Produces("application/json")
 public class TaskResource {
 
-    static List<Task> tasks = new ArrayList<>(
-            asList(new Task("task 1"), new Task("task 2")));
+    TaskRepository repo = new TaskRepository();
 
     @GET
     public List<Task> getAllTasks() {
-        return tasks;
+        return repo.getAllTasks();
     }
 
     @POST
     public Task createTask(@FormParam("title") String title) {
-        Task task = new Task(title);
-        tasks.add(task);
-        return task;
+        return repo.persist(new Task(title));
     }
 
     @PUT
     public void toggle(@FormParam("id") int id) {
-        Task task = tasks.get(id-1);
+        Task task = repo.getById(id);
         task.setIsDone(!task.getIsDone());
+        repo.persist(task);
     }
 
     @DELETE
     public void delete(@FormParam("id") int id) {
-        Task task = tasks.get(id-1);
-        tasks.remove(task);
+        Task task = repo.getById(id);
+        repo.delete(task);
     }
 }

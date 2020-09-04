@@ -5,11 +5,8 @@ public class Task {
     String title;
     Boolean isDone = false;
 
-    static int count = 0;
-
     public Task(String title) {
         this.title = title;
-        this.id = ++count;
     }
 
     public int getId() {
