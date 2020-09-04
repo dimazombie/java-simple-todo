@@ -32,4 +32,10 @@ public class TaskResource {
         Task task = tasks.get(id-1);
         task.setIsDone(!task.getIsDone());
     }
+
+    @DELETE
+    public void delete(@FormParam("id") int id) {
+        Task task = tasks.get(id-1);
+        tasks.remove(task);
+    }
 }
