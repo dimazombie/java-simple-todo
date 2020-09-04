@@ -36,9 +36,7 @@
             e.preventDefault()
             if (this.state.text) {
                 var xhr = new XMLHttpRequest();
-                var url = "http://localhost:8080/rest/task";
-
-                xhr.open('POST', url, true);
+                xhr.open('POST', window.REST_URL, true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                 xhr.onload = () => {
                     this.update({
@@ -58,9 +56,7 @@
             item.isDone = !item.isDone
 
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8080/rest/task";
-
-            xhr.open('PUT', url, true);
+            xhr.open('PUT', window.REST_URL, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onload = () => {
                 this.update()
@@ -69,9 +65,7 @@
           },
           del(item) {
             var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8080/rest/task";
-
-            xhr.open('DELETE', url, true);
+            xhr.open('DELETE', window.REST_URL, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onload = () => {
                 tasks = this.state.tasks.filter(function(t) {

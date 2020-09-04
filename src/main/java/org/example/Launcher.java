@@ -4,8 +4,12 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Launcher {
+    private static String PORT_ENV_NAME = "TODOAPP_PORT";
+    private static int DEFAULT_PORT = 8080;
+
     public static void main(String[] args) throws Exception {
-        Server server = new Server(8080);
+        int port = getPort();
+        Server server = new Server(port);
 
         WebAppContext context = new WebAppContext("webapp", "/");
 
@@ -16,5 +20,14 @@ public class Launcher {
 
         server.setHandler(context);
         server.start();
+    }
+
+    public static int getPort() {
+        String port = System.getenv(PORT_ENV_NAME);
+        if(port == null || port.isEmpty()) {
+            return DEFAULT_PORT;
+        } else {
+            return Integer.parseInt(port);
+        }
     }
 }

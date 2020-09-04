@@ -12,12 +12,13 @@
 <body>
     <todo></todo>
     <script>
+
         (async function main() {
             await riot.compile()
 
-            var xhr = new XMLHttpRequest();
-            var url = "http://localhost:8080/rest/task";
+            window.REST_URL = 'http://localhost:' + location.port + '/rest/task'
 
+            var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var tasks = JSON.parse(xhr.response);
@@ -25,7 +26,7 @@
                     loadTasks(tasks);
                 }
             }
-            xhr.open("GET", url, true);
+            xhr.open("GET", window.REST_URL, true);
             xhr.send();
 
             function sortTasks(tasks) {
@@ -41,7 +42,9 @@
             }
             function loadTasks(tasks) {
               console.log(tasks)
-              riot.mount('todo', { tasks: tasks });
+              riot.mount('todo', {
+                tasks: tasks
+              });
             }
         }())
     </script>
