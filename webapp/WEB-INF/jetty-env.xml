@@ -1,0 +1,15 @@
+<Configure id='wac' class="org.eclipse.jetty.webapp.WebAppContext">
+    <New id="dataSource" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg><Ref refid='wac'/></Arg>
+        <Arg>jdbc/ds</Arg>
+        <Arg>
+            <New class="org.apache.commons.dbcp.BasicDataSource">
+                <Set name="testOnBorrow">true</Set>
+                <Set name="url">jdbc:h2:mem:db;USER=sa;PASSWORD=sa</Set>
+                <Set name="maxActive">5</Set>
+                <Set name="maxIdle">5</Set>
+                <Set name="defaultAutoCommit">false</Set>
+            </New>
+        </Arg>
+    </New>
+</Configure>

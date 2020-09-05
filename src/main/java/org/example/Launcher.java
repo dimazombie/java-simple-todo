@@ -1,7 +1,10 @@
 package org.example;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import java.sql.*;
 
 public class Launcher {
     private static String PORT_ENV_NAME = "TODOAPP_PORT";
@@ -10,6 +13,12 @@ public class Launcher {
     public static void main(String[] args) throws Exception {
         int port = getPort();
         Server server = new Server(port);
+
+        //Enable parsing of jndi-related parts of web.xml and jetty-env.xml
+        Configuration.ClassList classlist = Configuration.ClassList.setServerDefault(server);
+        classlist.addAfter("org.eclipse.jetty.webapp.FragmentConfiguration",
+                "org.eclipse.jetty.plus.webapp.EnvConfiguration",
+                "org.eclipse.jetty.plus.webapp.PlusConfiguration");
 
         WebAppContext context = new WebAppContext("webapp", "/");
 
