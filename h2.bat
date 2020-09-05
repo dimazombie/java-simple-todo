@@ -1,0 +1,1 @@
+java -cp h2-1.4.200.jar org.h2.tools.Shell -url jdbc:h2:./java-simple-todo;AUTO_SERVER=TRUE -user sa -password sa

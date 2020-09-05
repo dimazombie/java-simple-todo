@@ -12,8 +12,14 @@ public class LauncherTest {
     public final EnvironmentVariables environmentVariables = new EnvironmentVariables();
 
     @Test
-    public void appPortShouldBeLoadedFromEnv() {
-        environmentVariables.set("TODOAPP_PORT", "1234");
+    public void portShouldBeLoadedFromEnv() {
+        environmentVariables.set(Launcher.PORT_ENV_NAME, "1234");
         assertEquals(1234, Launcher.getPort());
+    }
+
+    @Test
+    public void defaultPortShouldBeUsedIfNoEnv() {
+        environmentVariables.clear(Launcher.PORT_ENV_NAME);
+        assertEquals(Launcher.DEFAULT_PORT, Launcher.getPort());
     }
 }
