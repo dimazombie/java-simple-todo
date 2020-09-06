@@ -67,9 +67,9 @@ public class TaskRepository {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(
                     "update TASK t set t.title = ?, t.isdone = ? where t.id = ?");
-            ps.setString(1, task.getTitle());
-            ps.setBoolean(2, task.getIsDone());
-            ps.setInt(3, task.getId());
+            ps.setString(1, task.title);
+            ps.setBoolean(2, task.isDone);
+            ps.setInt(3, task.id);
             ps.execute();
         }
         catch (SQLException e) {
@@ -86,11 +86,11 @@ public class TaskRepository {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(
                     "insert into TASK(title) values(?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, task.getTitle());
+            ps.setString(1, task.title);
             ps.execute();
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    task.setId(generatedKeys.getInt("id"));
+                    task.id = (generatedKeys.getInt("id"));
                 }
             }
         }
@@ -108,7 +108,7 @@ public class TaskRepository {
         try {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement("delete from TASK t where t.id = ?");
-            ps.setInt(1, task.getId());
+            ps.setInt(1, task.id);
             ps.execute();
         }
         catch (SQLException e) {

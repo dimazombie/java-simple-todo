@@ -2,12 +2,8 @@ package org.example.rest;
 
 import org.example.model.Task;
 import org.example.model.TaskRepository;
-
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 @Path("task")
 @Produces("application/json")
@@ -28,7 +24,7 @@ public class TaskResource {
     @PUT
     public void toggle(@FormParam("id") int id) {
         Task task = repo.getById(id);
-        task.setIsDone(!task.getIsDone());
+        task.isDone ^= true;
         repo.persist(task);
     }
 
