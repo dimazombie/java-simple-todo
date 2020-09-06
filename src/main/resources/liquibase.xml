@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+	    http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd">
+
+    <changeSet id="1" author="joffrua">
+        <createTable schemaName="public" tableName="TASK">
+            <column name="ID" type="INT"/>
+            <column name="TITLE" type="VARCHAR2(255)"/>
+            <column name="ISDONE" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1-h2" author="joffrua">
+        <modifyDataType tableName="TASK" columnName="ID" newDataType="INT AUTO_INCREMENT"/>
+    </changeSet>
+    <changeSet id="2" author="joffrua">
+        <createIndex tableName="TASK" indexName="PK_TASK">
+            <column name="ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3" author="joffrua">
+        <addPrimaryKey tableName="TASK" columnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

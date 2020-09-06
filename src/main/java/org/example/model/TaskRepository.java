@@ -25,6 +25,19 @@ public class TaskRepository {
     }
 
     public List<Task> getAllTasks() {
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps= null;
+            ps = conn.prepareStatement("select * from TASK");
+            ResultSet r = ps.executeQuery();
+            if(r.next()) {
+                tasks.add(new Task(r.getString(2)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return tasks;
     }
 
