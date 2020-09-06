@@ -8,7 +8,7 @@
                 <Set name="url">jdbc:h2:./db/java-simple-todo;AUTO_SERVER=TRUE;USER=sa;PASSWORD=sa</Set>
                 <Set name="maxActive">5</Set>
                 <Set name="maxIdle">5</Set>
-                <Set name="defaultAutoCommit">false</Set>
+                <Set name="defaultAutoCommit">true</Set>
             </New>
         </Arg>
     </New>

@@ -9,10 +9,6 @@ import java.util.List;
 
 public class TaskRepository {
 
-    static List<Task> tasks = new ArrayList<>();
-
-    static int count = 0;
-
     DataSource dataSource;
 
     public TaskRepository() {
@@ -27,41 +23,107 @@ public class TaskRepository {
     public List<Task> getAllTasks() {
         Connection conn = null;
         try {
+            List<Task> tasks = new ArrayList<Task>();
             conn = dataSource.getConnection();
-            PreparedStatement ps= null;
-            ps = conn.prepareStatement("select * from TASK");
-            ResultSet r = ps.executeQuery();
-            if(r.next()) {
-                tasks.add(new Task(r.getString(2)));
+            ResultSet rs = conn.prepareStatement("select * from TASK").executeQuery();
+            while (rs.next()) {
+                tasks.add(new Task(rs.getInt("id"), rs.getString("title"),
+                        rs.getBoolean("isDone")));
             }
-        } catch (SQLException e) {
+            return tasks;
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return tasks;
+        finally {
+            closeSilently(conn);
+        }
     }
 
     public Task getById(int id) {
-        for (Task task : tasks) {
-            if(task.getId() == id) {
-                return task;
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement("select t.* from TASK t where t.id = ?");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Task(rs.getInt("id"), rs.getString("title"),
+                        rs.getBoolean("isDone"));
             }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            closeSilently(conn);
         }
         return null;
     }
 
-    public Task persist(Task task) {
-        if(task.getId() == 0) {
-            task.id = ++count;
-            tasks.add(task);
-        } else {
-            tasks.remove(task);
-            tasks.add(task);
+    public void persist(Task task) {
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(
+                    "update TASK t set t.title = ?, t.isdone = ? where t.id = ?");
+            ps.setString(1, task.getTitle());
+            ps.setBoolean(2, task.getIsDone());
+            ps.setInt(3, task.getId());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            closeSilently(conn);
+        }
+    }
+
+    public Task insert(Task task) {
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(
+                    "insert into TASK(title) values(?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, task.getTitle());
+            ps.execute();
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    task.setId(generatedKeys.getInt("id"));
+                }
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            closeSilently(conn);
         }
         return task;
     }
 
     public void delete(Task task) {
-        tasks.remove(task);
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement("delete from TASK t where t.id = ?");
+            ps.setInt(1, task.getId());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            closeSilently(conn);
+        }
+    }
+
+    private void closeSilently(Connection conn) {
+        try {
+            if (conn != null) conn.close();
+        }
+        catch (SQLException ignore) {
+        }
     }
 }

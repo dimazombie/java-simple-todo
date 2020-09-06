@@ -13,15 +13,19 @@
             <column name="ISDONE" type="BOOLEAN"/>
         </createTable>
     </changeSet>
+
     <changeSet id="1-h2" author="joffrua">
         <modifyDataType tableName="TASK" columnName="ID" newDataType="INT AUTO_INCREMENT"/>
     </changeSet>
+
     <changeSet id="2" author="joffrua">
         <createIndex tableName="TASK" indexName="PK_TASK">
             <column name="ID"/>
         </createIndex>
     </changeSet>
+
     <changeSet id="3" author="joffrua">
         <addPrimaryKey tableName="TASK" columnNames="ID"/>
     </changeSet>
+
 </databaseChangeLog>

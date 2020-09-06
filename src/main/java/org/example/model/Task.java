@@ -9,6 +9,12 @@ public class Task {
         this.title = title;
     }
 
+    public Task(int id, String title, Boolean isDone) {
+        this.id = id;
+        this.title = title;
+        this.isDone = isDone;
+    }
+
     public int getId() {
         return id;
     }

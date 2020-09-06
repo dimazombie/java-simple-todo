@@ -22,7 +22,7 @@ public class TaskResource {
 
     @POST
     public Task createTask(@FormParam("title") String title) {
-        return repo.persist(new Task(title));
+        return repo.insert(new Task(title));
     }
 
     @PUT
