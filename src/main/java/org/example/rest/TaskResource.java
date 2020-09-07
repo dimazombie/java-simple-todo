@@ -2,6 +2,7 @@ package org.example.rest;
 
 import org.example.model.Task;
 import org.example.model.TaskRepository;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Produces("application/json")
 public class TaskResource {
 
-    TaskRepository repo = new TaskRepository();
+    @Inject TaskRepository repo;
 
     @GET
     public List<Task> getAllTasks() {
