@@ -16,7 +16,7 @@
         (async function main() {
             await riot.compile()
 
-            window.REST_URL = 'http://localhost:' + location.port + '/rest/task'
+            window.REST_URL = location.origin + '/rest/task'
 
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
