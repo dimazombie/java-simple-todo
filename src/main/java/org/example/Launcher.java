@@ -5,7 +5,7 @@ import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Launcher {
-    public static String PORT_ENV_NAME = "TODOAPP_PORT";
+    public static String PORT_ENV_NAME = "PORT";
     public static int DEFAULT_PORT = 8080;
 
     public static void main(String[] args) throws Exception {
